@@ -10,32 +10,36 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.example.android.moviedb.databinding.FragmentOverviewBinding
+import com.example.android.moviedb.databinding.FragmentTVShowsOverviewBinding
 
-class OverviewFragment : Fragment() {
+class TVShowsOverviewFragment : Fragment() {
 
-    private val viewModel: OverviewViewModel by lazy {
-        ViewModelProvider(this).get(OverviewViewModel::class.java)
+    private val viewModel: TVShowsOverviewViewModel by lazy {
+        ViewModelProvider(this).get(TVShowsOverviewViewModel::class.java)
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: FragmentOverviewBinding = DataBindingUtil.inflate(inflater,
-            R.layout.fragment_overview, container, false)
+        val binding: FragmentTVShowsOverviewBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_t_v_shows_overview,
+            container,
+            false
+        )
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.movieList.adapter = MediaListAdapter(MediaListAdapter.OnClickListener {
+        binding.tvShowsList.adapter = MediaListAdapter(MediaListAdapter.OnClickListener {
             viewModel.displayMediaDetails(it)
         })
-        binding.movieList.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        binding.tvShowsList.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
-        viewModel.navigateToSelectedMedia.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToSelectedTVShow.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 this.findNavController().navigate(
-                    MainFragmentDirections.actionShowDetails(it))
+                    MainFragmentDirections.actionShowDetails(it)
+                )
                 viewModel.displayMediaDetailsComplete()
             }
         })

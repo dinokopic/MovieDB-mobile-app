@@ -1,19 +1,18 @@
 package com.example.android.moviedb
 
-import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 
 private const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/original"
 
 @BindingAdapter("listData")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<Movie>?) {
-    val adapter = recyclerView.adapter as MovieListAdapter
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<Media>?) {
+    val adapter = recyclerView.adapter as MediaListAdapter
     adapter.submitList(data)
 }
 
@@ -21,7 +20,6 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<Movie>?) {
 fun bindImage(imgView: ImageView, posterPath: String?) {
     posterPath?.let {
         val imgUrl = POSTER_BASE_URL + posterPath
-        Log.i("MOJ TAG", imgUrl)
         val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
         Glide.with(imgView.context)
             .load(imgUri)
@@ -33,9 +31,24 @@ fun bindImage(imgView: ImageView, posterPath: String?) {
 fun bindOverview(textView: TextView, overview: String?) {
     overview?.let {
         var text = overview
-        if (text.length > 200) {
-            text = text.subSequence(0, 199).toString() + "..."
+        if (text.length > 150) {
+            text = text.subSequence(0, 149).toString() + "..."
         }
         textView.text = text
+    }
+}
+
+@BindingAdapter("tmdbApiStatus")
+fun bindStatus(statusImageView: ImageView, status: TMDBApiStatus?) {
+    when (status) {
+        TMDBApiStatus.LOADING -> {
+            statusImageView.visibility = View.VISIBLE
+        }
+        TMDBApiStatus.ERROR -> {
+            statusImageView.visibility = View.VISIBLE
+        }
+        else -> {
+            statusImageView.visibility = View.GONE
+        }
     }
 }

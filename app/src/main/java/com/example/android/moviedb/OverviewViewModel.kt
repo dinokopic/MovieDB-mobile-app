@@ -14,13 +14,17 @@ class OverviewViewModel : ViewModel() {
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    private val _movies = MutableLiveData<List<Movie>>()
-    val movies: LiveData<List<Movie>>
-        get() = _movies
+    private val _media = MutableLiveData<List<Media>>()
+    val media: LiveData<List<Media>>
+        get() = _media
 
-    private val _status = MutableLiveData<String>()
-    val status: LiveData<String>
+    private val _status = MutableLiveData<TMDBApiStatus>()
+    val status: LiveData<TMDBApiStatus>
         get() = _status
+
+    private val _navigateToSelectedMedia = MutableLiveData<Media>()
+    val navigateToSelectedMedia: LiveData<Media>
+        get() = _navigateToSelectedMedia
 
     init {
         getMovies()
@@ -31,14 +35,28 @@ class OverviewViewModel : ViewModel() {
             val getMoviesDeferred = TMDBApi.retrofitService.getMovies()
             try {
                 val movieResults = getMoviesDeferred.await()
-                _status.value = "Success"
+                _status.value = TMDBApiStatus.LOADING
                 if (movieResults.results.isNotEmpty()) {
-                    _movies.value = movieResults.results.subList(0, 10)
+                    movieResults.results.mapIndexed { index, movie ->
+                        movie.rank = index + 1
+                    }
+                    _media.value = movieResults.results.subList(0, 10)
                 }
+                _status.value = TMDBApiStatus.DONE
             } catch (t: Throwable) {
-                _status.value = "Failure: " + t.message
+                _status.value = TMDBApiStatus.ERROR
             }
         }
     }
 
+    fun displayMediaDetails(media: Media) {
+        _navigateToSelectedMedia.value = media
+    }
+
+    fun displayMediaDetailsComplete() {
+        _navigateToSelectedMedia.value = null
+    }
+
 }
+
+enum class TMDBApiStatus { LOADING, ERROR, DONE }
