@@ -37,18 +37,3 @@ fun bindOverview(textView: TextView, overview: String?) {
         textView.text = text
     }
 }
-
-@BindingAdapter("tmdbApiStatus")
-fun bindStatus(statusImageView: ImageView, status: TMDBApiStatus?) {
-    when (status) {
-        TMDBApiStatus.LOADING -> {
-            statusImageView.visibility = View.VISIBLE
-        }
-        TMDBApiStatus.ERROR -> {
-            statusImageView.visibility = View.VISIBLE
-        }
-        else -> {
-            statusImageView.visibility = View.GONE
-        }
-    }
-}
