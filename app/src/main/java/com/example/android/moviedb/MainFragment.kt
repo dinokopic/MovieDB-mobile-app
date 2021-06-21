@@ -11,8 +11,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.example.android.moviedb.adapter.FragmentAdapter
+import com.example.android.moviedb.adapter.MediaListAdapter
 import com.example.android.moviedb.databinding.FragmentMainBinding
 import com.example.android.moviedb.network.MediaType
+import com.example.android.moviedb.search.SearchViewModel
+import com.example.android.moviedb.search.SearchViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainFragment : Fragment() {
@@ -28,11 +32,11 @@ class MainFragment : Fragment() {
         }
         override fun onFinish() {
             viewModel.showSearchResults()
-            val currItem = when (binding.viewPager.currentItem) {
-                1 -> "TV Shows"
-                else -> "Movies"
+            val mediaType = when (binding.viewPager.currentItem) {
+                1 -> MediaType.TVShow
+                else -> MediaType.Movie
             }
-            viewModel.search(query)
+            viewModel.search(query, mediaType)
         }
     }
 
@@ -53,7 +57,7 @@ class MainFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(SearchViewModel::class.java)
         binding.viewModel = viewModel
 
-        query = viewModel.searchQuery.value.toString()
+        query = viewModel.searchQuery.value ?: ""
 
         binding.searchList.adapter = MediaListAdapter(MediaListAdapter.OnClickListener {
             viewModel.displayMediaDetails(it)
@@ -88,6 +92,7 @@ class MainFragment : Fragment() {
         val searchItem = menu.findItem(R.id.action_search)
         val searchView: SearchView = searchItem.actionView as SearchView
         searchView.setIconifiedByDefault(true)
+        searchView.queryHint = "Enter more than 3 characters"
         if (!viewModel.searchQuery.value.isNullOrEmpty()) {
             searchItem.expandActionView()
             searchView.clearFocus()
@@ -127,5 +132,12 @@ class MainFragment : Fragment() {
             viewModel.setQueryValue(query)
         }
     }
-
+    /*
+    private fun makeQueryHint(mediaType: MediaType): String {
+        return when (mediaType) {
+            MediaType.Movie -> "Find movie (Enter more than 3 characters)"
+            else -> "Find tv show (Enter more than 3 characters)"
+        }
+    }
+*/
 }

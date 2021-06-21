@@ -1,9 +1,9 @@
-package com.example.android.moviedb
+package com.example.android.moviedb.adapter
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.android.moviedb.medialist.MediaListFragment
 import com.example.android.moviedb.network.MediaType
 
 class FragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
@@ -16,7 +16,7 @@ class FragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
         }
         val bundle = Bundle()
         bundle.putSerializable("type", type)
-        val fragment = OverviewFragment()
+        val fragment = MediaListFragment()
         fragment.arguments = bundle
         return fragment
     }

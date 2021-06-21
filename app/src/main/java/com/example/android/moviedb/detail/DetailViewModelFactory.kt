@@ -1,8 +1,9 @@
-package com.example.android.moviedb
+package com.example.android.moviedb.detail
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.android.moviedb.Media
 
 class DetailViewModelFactory(
     private val media: Media,

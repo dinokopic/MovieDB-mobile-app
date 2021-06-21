@@ -1,4 +1,4 @@
-package com.example.android.moviedb
+package com.example.android.moviedb.detail
 
 import android.os.Bundle
 import android.view.*
@@ -12,27 +12,15 @@ class DetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val application = requireActivity().application
         val binding = FragmentDetailBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        val media = com.example.android.moviedb.DetailFragmentArgs.fromBundle(requireArguments()).selectedMedia
+        val media = DetailFragmentArgs.fromBundle(requireArguments()).selectedMedia
         val viewModelFactory = DetailViewModelFactory(media, application)
         binding.viewModel = ViewModelProvider(
             this, viewModelFactory).get(DetailViewModel::class.java)
         return binding.root
     }
-/*
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
-    }
-*/
-
 }

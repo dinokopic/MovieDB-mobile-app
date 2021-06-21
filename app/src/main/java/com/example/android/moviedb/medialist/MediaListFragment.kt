@@ -1,4 +1,4 @@
-package com.example.android.moviedb
+package com.example.android.moviedb.medialist
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,10 +10,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.example.android.moviedb.databinding.FragmentOverviewBinding
+import com.example.android.moviedb.MainFragmentDirections
+import com.example.android.moviedb.R
+import com.example.android.moviedb.adapter.MediaListAdapter
+import com.example.android.moviedb.databinding.FragmentMediaListBinding
 import com.example.android.moviedb.network.MediaType
 
-class OverviewFragment : Fragment() {
+class MediaListFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,14 +24,14 @@ class OverviewFragment : Fragment() {
     ): View? {
         val application = requireActivity().application
 
-        val binding: FragmentOverviewBinding = DataBindingUtil.inflate(inflater,
-            R.layout.fragment_overview, container, false)
+        val binding: FragmentMediaListBinding = DataBindingUtil.inflate(inflater,
+            R.layout.fragment_media_list, container, false)
         binding.lifecycleOwner = this
 
         val mediaType = requireArguments().getSerializable("type") as MediaType
 
-        val viewModelFactory = OverviewViewModelFactory(mediaType, application)
-        val viewModel = ViewModelProvider(this, viewModelFactory).get(OverviewViewModel::class.java)
+        val viewModelFactory = MediaListViewModelFactory(mediaType, application)
+        val viewModel = ViewModelProvider(this, viewModelFactory).get(MediaListViewModel::class.java)
         binding.viewModel = viewModel
         binding.movieList.adapter = MediaListAdapter(MediaListAdapter.OnClickListener {
             viewModel.displayMediaDetails(it)
@@ -38,7 +41,8 @@ class OverviewFragment : Fragment() {
         viewModel.navigateToSelectedMedia.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 this.findNavController().navigate(
-                    MainFragmentDirections.actionShowDetails(it))
+                    MainFragmentDirections.actionShowDetails(it)
+                )
                 viewModel.displayMediaDetailsComplete()
             }
         })

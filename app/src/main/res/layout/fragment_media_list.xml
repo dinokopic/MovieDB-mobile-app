@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
+    
     <data>
         <variable
             name="viewModel"
-            type="com.example.android.moviedb.search.SearchViewModel" />
+            type="com.example.android.moviedb.medialist.MediaListViewModel" />
     </data>
 
     <LinearLayout
@@ -16,34 +16,18 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="@{viewModel.topMediaListVisibility}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="@{viewModel.topMediaListVisibility}"
-            app:layout_constraintTop_toBottomOf="@+id/tab_layout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_list"
+            android:id="@+id/movie_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{viewModel.searchListVisibility}"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:listData="@{viewModel.media}"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:listData="@{viewModel.media}"
+            tools:listitem="@layout/list_view_item"
+            />
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -61,5 +45,6 @@
             android:textSize="@dimen/medium_text_size"
             app:tmdbApiStatus="@{viewModel.status}"
             app:listData="@{viewModel.media}"/>
+
     </LinearLayout>
 </layout>

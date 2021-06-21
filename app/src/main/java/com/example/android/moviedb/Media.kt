@@ -10,7 +10,7 @@ data class Media(
     val title: String = "",
     val name: String = "",
     val overview: String,
-    @Json(name = "poster_path") val posterPath: String,
+    @Json(name = "poster_path") val posterPath: String?,
     var rank: Int = 0
 ): Parcelable {
     val titleName: String

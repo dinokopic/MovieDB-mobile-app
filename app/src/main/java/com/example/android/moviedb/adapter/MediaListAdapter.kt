@@ -1,10 +1,11 @@
-package com.example.android.moviedb
+package com.example.android.moviedb.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.android.moviedb.Media
 import com.example.android.moviedb.databinding.ListViewItemBinding
 
 class MediaListAdapter(private val onClickListener: OnClickListener)
@@ -12,11 +13,11 @@ class MediaListAdapter(private val onClickListener: OnClickListener)
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MediaListAdapter.MediaViewHolder {
+    ): MediaViewHolder {
         return MediaViewHolder(ListViewItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
-    override fun onBindViewHolder(holder: MediaListAdapter.MediaViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MediaViewHolder, position: Int) {
         val media = getItem(position)
         holder.itemView.setOnClickListener {
             onClickListener.clickListener(media)

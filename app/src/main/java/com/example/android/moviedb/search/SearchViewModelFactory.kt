@@ -1,4 +1,4 @@
-package com.example.android.moviedb
+package com.example.android.moviedb.search
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
