@@ -28,14 +28,7 @@ class MediaRepository(private val database: MediaDatabase) {
             val movieResults = TMDBApi.retrofitService.getTopMedia("movie").await()
             movieResults.results.mapIndexed { index, media ->
                 media.rank = index + 1
-            }/*
-            if (!movies.value.isNullOrEmpty()) {
-                for (i in 0..9) {
-                    if (movieResults.results[i].id == movies.value?.get(i)?.id ?: -1) {
-                        return@withContext
-                    }
-                }
-            }*/
+            }
             val results = MediaResults(movieResults.results.subList(0, 10))
             database.mediaDao.insertAll(*results.asMovieDatabaseModel())
         }
@@ -46,13 +39,6 @@ class MediaRepository(private val database: MediaDatabase) {
             val tvShowResults = TMDBApi.retrofitService.getTopMedia("tv").await()
             tvShowResults.results.mapIndexed { index, media ->
                 media.rank = index + 1
-            }
-            if (!tvShows.value.isNullOrEmpty()) {
-                for (i in 0..9) {
-                    if (tvShowResults.results[i].id == tvShows.value?.get(i)?.id ?: -1) {
-                        return@withContext
-                    }
-                }
             }
             val results = MediaResults(tvShowResults.results.subList(0, 10))
             database.mediaDao.insertAll(*results.asTVShowDatabaseModel())

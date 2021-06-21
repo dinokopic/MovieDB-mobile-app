@@ -2,7 +2,6 @@ package com.example.android.moviedb
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -28,7 +27,7 @@ class MainFragment : Fragment() {
 
     private val timer = object: CountDownTimer(1000, 1000) {
         override fun onTick(p0: Long) {
-            Log.i("OK", "OK")
+
         }
         override fun onFinish() {
             viewModel.showSearchResults()
@@ -53,7 +52,7 @@ class MainFragment : Fragment() {
         binding.lifecycleOwner = this
         val application = requireActivity().application
 
-        val viewModelFactory = SearchViewModelFactory(mediaType, application)
+        val viewModelFactory = SearchViewModelFactory(application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(SearchViewModel::class.java)
         binding.viewModel = viewModel
 
@@ -81,8 +80,8 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
-                1 -> "TV Shows"
-                else -> "Movies"
+                1 -> getString(R.string.tv_shows)
+                else -> getString(R.string.movies)
             }
         }.attach()
     }
@@ -90,15 +89,14 @@ class MainFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.search_menu, menu)
         val searchItem = menu.findItem(R.id.action_search)
-        val searchView: SearchView = searchItem.actionView as SearchView
-        searchView.setIconifiedByDefault(true)
-        searchView.queryHint = "Enter more than 3 characters"
+        val searchView = searchItem.actionView as SearchView
+        searchView.queryHint = getString(R.string.query_hint)
         if (!viewModel.searchQuery.value.isNullOrEmpty()) {
             searchItem.expandActionView()
-            searchView.clearFocus()
-            searchView.setQuery(viewModel.searchQuery.value, true)
+            searchView.setQuery(viewModel.searchQuery.value, false)
             viewModel.setQueryValue(null)
         }
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -132,12 +130,5 @@ class MainFragment : Fragment() {
             viewModel.setQueryValue(query)
         }
     }
-    /*
-    private fun makeQueryHint(mediaType: MediaType): String {
-        return when (mediaType) {
-            MediaType.Movie -> "Find movie (Enter more than 3 characters)"
-            else -> "Find tv show (Enter more than 3 characters)"
-        }
-    }
-*/
+
 }

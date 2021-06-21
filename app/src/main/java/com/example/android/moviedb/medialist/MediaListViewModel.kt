@@ -16,7 +16,8 @@ import com.example.android.moviedb.network.MediaType
 import com.example.android.moviedb.network.TMDBApi
 import kotlinx.coroutines.*
 
-class MediaListViewModel(private val mediaType: MediaType, app: Application) : AndroidViewModel(app) {
+class MediaListViewModel(private val mediaType: MediaType,
+                         app: Application) : AndroidViewModel(app) {
 
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)

@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class SearchViewModel(private val mediaType: MediaType, app: Application): AndroidViewModel(app) {
+class SearchViewModel(app: Application): AndroidViewModel(app) {
 
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)

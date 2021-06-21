@@ -3,6 +3,7 @@ package com.example.android.moviedb.database
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.android.moviedb.R
 
 @Dao
 interface MediaDao {
@@ -31,7 +32,7 @@ fun getDatabase(context: Context): MediaDatabase {
         if (!::INSTANCE.isInitialized) {
             INSTANCE = Room.databaseBuilder(
                 context.applicationContext,
-                MediaDatabase::class.java, "media"
+                MediaDatabase::class.java, context.getString(R.string.media)
             ).build()
         }
     }

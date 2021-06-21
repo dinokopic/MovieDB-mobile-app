@@ -4,4 +4,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_connection">Error: No internet connection</string>
     <string name="no_overview">No overview was provided</string>
+    <string name="query_hint">Enter more than 3 characters</string>
+    <string name="tv_shows">TV Shows</string>
+    <string name="movies">Movies</string>
+    <string name="media">media</string>
+    <string name="unknown_view_model">Unknown ViewModel class</string>
+    <string name="search">Search</string>
 </resources>

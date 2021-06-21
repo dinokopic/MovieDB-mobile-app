@@ -18,10 +18,9 @@ import com.example.android.moviedb.network.MediaType
 
 class MediaListFragment : Fragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
+
         val application = requireActivity().application
 
         val binding: FragmentMediaListBinding = DataBindingUtil.inflate(inflater,
@@ -46,7 +45,6 @@ class MediaListFragment : Fragment() {
                 viewModel.displayMediaDetailsComplete()
             }
         })
-
         return binding.root
     }
 

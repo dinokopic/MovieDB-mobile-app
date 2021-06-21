@@ -34,21 +34,7 @@ fun bindImage(imgView: ImageView, posterPath: String?) {
     }
 }
 
-@BindingAdapter("fitOverview")
-fun bindOverview(textView: TextView, overview: String?) {
-    overview?.let {
-        var text = overview
-        if (text.length > 150) {
-            text = text.subSequence(0, 149).toString() + "..."
-        } else if (overview.isEmpty()) {
-            val context = textView.context
-            text = context.getString(R.string.no_overview)
-        }
-        textView.text = text
-    }
-}
-
-@BindingAdapter("noOverview")
+@BindingAdapter("overview")
 fun bindNoOverview(textView: TextView, overview: String?) {
     overview?.let {
         var text = overview

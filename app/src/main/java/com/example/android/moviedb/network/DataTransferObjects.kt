@@ -1,6 +1,5 @@
 package com.example.android.moviedb.network
 
-import android.util.Log
 import com.example.android.moviedb.Media
 import com.example.android.moviedb.database.DatabaseMovie
 import com.example.android.moviedb.database.DatabaseTVShow
