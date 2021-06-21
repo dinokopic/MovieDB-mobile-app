@@ -27,11 +27,11 @@ class MediaListAdapter(private val onClickListener: OnClickListener)
 
     companion object DiffCallback : DiffUtil.ItemCallback<Media>() {
         override fun areItemsTheSame(oldItem: Media, newItem: Media): Boolean {
-            return oldItem === newItem
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Media, newItem: Media): Boolean {
-            return oldItem == newItem
+            return oldItem.id == newItem.id
         }
     }
 
