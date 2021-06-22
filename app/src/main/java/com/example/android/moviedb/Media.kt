@@ -3,9 +3,10 @@ package com.example.android.moviedb
 import android.os.Parcelable
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
+import javax.inject.Inject
 
 @Parcelize
-data class Media(
+data class Media @Inject constructor(
     val id: String,
     val title: String = "",
     val name: String = "",

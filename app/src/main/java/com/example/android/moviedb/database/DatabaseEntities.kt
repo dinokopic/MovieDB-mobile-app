@@ -13,6 +13,7 @@ data class DatabaseMovie constructor(
     val posterPath: String?,
     var rank: Int
 )
+
 @Entity
 data class DatabaseTVShow constructor(
     @PrimaryKey

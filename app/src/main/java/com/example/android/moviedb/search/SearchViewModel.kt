@@ -9,13 +9,16 @@ import com.example.android.moviedb.Media
 import com.example.android.moviedb.TMDBApiStatus
 import com.example.android.moviedb.fetchData
 import com.example.android.moviedb.network.MediaType
-import com.example.android.moviedb.network.TMDBApi
+import com.example.android.moviedb.network.TMDBApiService
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchViewModel: ViewModel() {
+@HiltViewModel
+class SearchViewModel @Inject constructor(private val tmdbApiService: TMDBApiService): ViewModel() {
 
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
@@ -46,7 +49,7 @@ class SearchViewModel: ViewModel() {
 
     private fun getMediaFromQuery(query: String, mediaType: MediaType) {
         coroutineScope.launch {
-            val getMediaDeferred = TMDBApi.retrofitService.getMediaFromQuery(mediaType.type, query)
+            val getMediaDeferred = tmdbApiService.getMediaFromQuery(mediaType.type, query)
             try {
                 _media.value = null
                 _status.value = TMDBApiStatus.LOADING

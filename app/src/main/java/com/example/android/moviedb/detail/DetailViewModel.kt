@@ -1,12 +1,21 @@
 package com.example.android.moviedb.detail
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import com.example.android.moviedb.Media
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
-class DetailViewModel(media: Media, app: Application) : AndroidViewModel(app) {
+class DetailViewModel @AssistedInject constructor(@Assisted private val media: Media) : ViewModel() {
+
+    class Factory(
+        private val assistedFactory: DetailViewModelAssistedFactory,
+        private val media: Media,
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return assistedFactory.create(media) as T
+        }
+    }
 
     private val _selectedMedia = MutableLiveData<Media>()
     val selectedMedia: LiveData<Media>
@@ -16,4 +25,9 @@ class DetailViewModel(media: Media, app: Application) : AndroidViewModel(app) {
         _selectedMedia.value = media
     }
 
+}
+
+@AssistedFactory
+interface DetailViewModelAssistedFactory {
+    fun create(media: Media): DetailViewModel
 }

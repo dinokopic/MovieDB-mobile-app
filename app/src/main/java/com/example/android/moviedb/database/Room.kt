@@ -7,6 +7,7 @@ import com.example.android.moviedb.R
 
 @Dao
 interface MediaDao {
+
     @Query("select * from databasemovie")
     fun getMovies(): LiveData<List<DatabaseMovie>>
 
@@ -18,6 +19,7 @@ interface MediaDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg tvShows: DatabaseTVShow)
+
 }
 
 @Database(entities = [DatabaseMovie::class, DatabaseTVShow::class], version = 1)
@@ -26,15 +28,3 @@ abstract class MediaDatabase: RoomDatabase() {
 }
 
 private lateinit var INSTANCE: MediaDatabase
-
-fun getDatabase(context: Context): MediaDatabase {
-    synchronized(MediaDatabase::class.java) {
-        if (!::INSTANCE.isInitialized) {
-            INSTANCE = Room.databaseBuilder(
-                context.applicationContext,
-                MediaDatabase::class.java, context.getString(R.string.media)
-            ).build()
-        }
-    }
-    return INSTANCE
-}

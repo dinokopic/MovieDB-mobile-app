@@ -1,18 +1,26 @@
 package com.example.android.moviedb.medialist
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import com.example.android.moviedb.Media
-import com.example.android.moviedb.MediaRepository
+import com.example.android.moviedb.repository.MediaRepository
 import com.example.android.moviedb.TMDBApiStatus
-import com.example.android.moviedb.database.getDatabase
 import com.example.android.moviedb.network.MediaType
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.*
 
-class MediaListViewModel(private val mediaType: MediaType,
-                         app: Application) : AndroidViewModel(app) {
+class MediaListViewModel @AssistedInject constructor(private val repository: MediaRepository,
+                                                     @Assisted private val mediaType: MediaType) : ViewModel() {
+
+    class Factory(
+        private val assistedFactory: MediaListViewModelAssistedFactory,
+        private val mediaType: MediaType,
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return assistedFactory.create(mediaType) as T
+        }
+    }
 
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
@@ -25,18 +33,14 @@ class MediaListViewModel(private val mediaType: MediaType,
     val navigateToSelectedMedia: LiveData<Media>
         get() = _navigateToSelectedMedia
 
-    private val database = getDatabase(app)
-
-    private val mediaRepository = MediaRepository(database)
-
     init {
         coroutineScope.launch {
             try {
                 _status.value = TMDBApiStatus.LOADING
                 if (mediaType == MediaType.Movie) {
-                    mediaRepository.refreshMovies()
+                    repository.refreshMovies()
                 } else {
-                    mediaRepository.refreshTVShows()
+                    repository.refreshTVShows()
                 }
                 _status.value = TMDBApiStatus.DONE
             } catch (t: Throwable) {
@@ -46,8 +50,8 @@ class MediaListViewModel(private val mediaType: MediaType,
     }
 
     val media = when (mediaType) {
-        MediaType.Movie -> mediaRepository.movies
-        else -> mediaRepository.tvShows
+        MediaType.Movie -> repository.movies
+        else -> repository.tvShows
     }
 
     fun displayMediaDetails(media: Media) {
@@ -58,4 +62,9 @@ class MediaListViewModel(private val mediaType: MediaType,
         _navigateToSelectedMedia.value = null
     }
 
+}
+
+@AssistedFactory
+interface MediaListViewModelAssistedFactory {
+    fun create(mediaType: MediaType): MediaListViewModel
 }

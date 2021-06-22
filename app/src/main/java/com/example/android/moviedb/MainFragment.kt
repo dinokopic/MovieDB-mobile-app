@@ -6,8 +6,8 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.android.moviedb.adapter.FragmentAdapter
@@ -16,14 +16,13 @@ import com.example.android.moviedb.databinding.FragmentMainBinding
 import com.example.android.moviedb.network.MediaType
 import com.example.android.moviedb.search.SearchViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
-    private val viewModel: SearchViewModel by lazy {
-        ViewModelProvider(this).get(SearchViewModel::class.java)
-    }
-    private var mediaType = MediaType.Movie
+    private val viewModel: SearchViewModel by viewModels()
     private var query: String = ""
 
     private val timer = object: CountDownTimer(1000, 1000) {
