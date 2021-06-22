@@ -2,7 +2,7 @@
     <string name="app_name">Movie DB</string>
     <string name="no_results">No results</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="no_connection">Error: No internet connection</string>
+    <string name="no_connection">No internet connection</string>
     <string name="no_overview">No overview was provided</string>
     <string name="query_hint">Enter more than 3 characters</string>
     <string name="tv_shows">TV Shows</string>
