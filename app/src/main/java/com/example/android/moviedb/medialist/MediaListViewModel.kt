@@ -1,19 +1,14 @@
 package com.example.android.moviedb.medialist
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.android.moviedb.Media
 import com.example.android.moviedb.MediaRepository
 import com.example.android.moviedb.TMDBApiStatus
-import com.example.android.moviedb.database.MediaDatabase
 import com.example.android.moviedb.database.getDatabase
-import com.example.android.moviedb.fetchData
 import com.example.android.moviedb.network.MediaType
-import com.example.android.moviedb.network.TMDBApi
 import kotlinx.coroutines.*
 
 class MediaListViewModel(private val mediaType: MediaType,

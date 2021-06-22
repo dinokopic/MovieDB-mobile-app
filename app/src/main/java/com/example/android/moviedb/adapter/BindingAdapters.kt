@@ -1,5 +1,6 @@
 package com.example.android.moviedb.adapter
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -49,6 +50,7 @@ fun bindNoOverview(textView: TextView, overview: String?) {
 @BindingAdapter("tmdbApiStatus", "listData")
 fun bindStatus(textView: TextView, status: TMDBApiStatus?, data: List<Media>?) {
     val context = textView.context
+    Log.i("VELICINA", textView.context.resources.configuration.fontScale.toString())
     if (status == TMDBApiStatus.ERROR) {
         textView.text = context.getString(R.string.no_connection)
         textView.visibility = View.VISIBLE
@@ -72,3 +74,13 @@ fun bindProgressStatus(progressBar: ProgressBar, status: TMDBApiStatus?) {
     }
 }
 
+@BindingAdapter("maxLinesScalable")
+fun bindMaxLines(textView: TextView, boolean: Boolean) {
+    if (boolean) {
+        when (textView.context.resources.configuration.fontScale) {
+            0.85f -> textView.maxLines = 4
+            1.15f, 1.3f -> textView.maxLines = 2
+            else -> textView.maxLines = 3
+        }
+    }
+}

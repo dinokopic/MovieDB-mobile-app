@@ -5,9 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools">
     
     <data>
+
         <variable
             name="viewModel"
             type="com.example.android.moviedb.medialist.MediaListViewModel" />
+
     </data>
 
     <LinearLayout
@@ -47,4 +49,5 @@
             app:listData="@{viewModel.media}"/>
 
     </LinearLayout>
+
 </layout>

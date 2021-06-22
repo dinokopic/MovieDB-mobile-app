@@ -5,15 +5,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="media"
             type="com.example.android.moviedb.Media" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="?android:attr/selectableItemBackground">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/movie_image"
@@ -43,12 +46,14 @@
         <TextView
             android:id="@+id/movie_title"
             android:layout_width="0dp"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/medium_margin"
             android:layout_marginEnd="@dimen/big_margin"
             android:textStyle="bold"
             android:text="@{media.titleName}"
             android:textSize="@dimen/medium_text_size"
+            android:ellipsize="end"
+            android:maxLines="1"
             app:layout_constraintStart_toEndOf="@id/movie_standing"
             app:layout_constraintTop_toTopOf="@id/movie_image"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -56,16 +61,15 @@
         <TextView
             android:id="@+id/movie_overview"
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="@dimen/medium_margin"
+            android:layout_height="0dp"
             android:textSize="@dimen/regular_text_size"
             android:ellipsize="end"
-            android:maxLines="3"
-            android:paddingBottom="@dimen/small_padding"
+            app:maxLinesScalable="@{true}"
             app:overview="@{media.overview}"
             app:layout_constraintStart_toStartOf="@id/movie_title"
             app:layout_constraintEnd_toEndOf="@id/movie_title"
-            app:layout_constraintTop_toBottomOf="@id/movie_title"/>
+            app:layout_constraintTop_toBottomOf="@id/movie_title"
+            app:layout_constraintBottom_toBottomOf="@id/movie_image"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

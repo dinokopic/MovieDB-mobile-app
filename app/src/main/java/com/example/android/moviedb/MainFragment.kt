@@ -15,13 +15,14 @@ import com.example.android.moviedb.adapter.MediaListAdapter
 import com.example.android.moviedb.databinding.FragmentMainBinding
 import com.example.android.moviedb.network.MediaType
 import com.example.android.moviedb.search.SearchViewModel
-import com.example.android.moviedb.search.SearchViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel: SearchViewModel by lazy {
+        ViewModelProvider(this).get(SearchViewModel::class.java)
+    }
     private var mediaType = MediaType.Movie
     private var query: String = ""
 
@@ -50,10 +51,6 @@ class MainFragment : Fragment() {
             container,false)
 
         binding.lifecycleOwner = this
-        val application = requireActivity().application
-
-        val viewModelFactory = SearchViewModelFactory(application)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(SearchViewModel::class.java)
         binding.viewModel = viewModel
 
         query = viewModel.searchQuery.value ?: ""

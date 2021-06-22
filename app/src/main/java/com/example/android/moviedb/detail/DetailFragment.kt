@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.android.moviedb.databinding.FragmentDetailBinding
 
-
 class DetailFragment : Fragment() {
 
     override fun onCreateView(

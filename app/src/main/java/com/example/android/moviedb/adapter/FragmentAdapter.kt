@@ -7,6 +7,7 @@ import com.example.android.moviedb.medialist.MediaListFragment
 import com.example.android.moviedb.network.MediaType
 
 class FragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+
     override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment {
@@ -20,4 +21,5 @@ class FragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
         fragment.arguments = bundle
         return fragment
     }
+
 }

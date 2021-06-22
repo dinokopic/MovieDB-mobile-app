@@ -1,11 +1,10 @@
 package com.example.android.moviedb.search
 
-import android.app.Application
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.android.moviedb.Media
 import com.example.android.moviedb.TMDBApiStatus
 import com.example.android.moviedb.fetchData
@@ -16,7 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class SearchViewModel(app: Application): AndroidViewModel(app) {
+class SearchViewModel: ViewModel() {
 
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
