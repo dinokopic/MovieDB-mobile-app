@@ -17,11 +17,11 @@ class MediaRepository @Inject constructor(private val mediaDao: MediaDao,
                                           private val tmdbApiService: TMDBApiService) {
 
     val movies: LiveData<List<Media>> = Transformations.map(mediaDao.getMovies()) {
-        it.asMovieDomainModel()
+        it.asMovieDomainModel().subList(0,10)
     }
 
     val tvShows: LiveData<List<Media>> = Transformations.map(mediaDao.getTVShows()) {
-        it.asTVShowDomainModel()
+        it.asTVShowDomainModel().subList(0,10)
     }
 
     suspend fun refreshMovies() {
