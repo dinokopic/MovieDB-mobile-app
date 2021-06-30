@@ -50,7 +50,6 @@ fun bindNoOverview(textView: TextView, overview: String?) {
 @BindingAdapter("tmdbApiStatus", "listData")
 fun bindStatus(textView: TextView, status: TMDBApiStatus?, data: List<Media>?) {
     val context = textView.context
-    Log.i("VELICINA", textView.context.resources.configuration.fontScale.toString())
     if (status == TMDBApiStatus.ERROR) {
         textView.text = context.getString(R.string.no_connection)
         textView.visibility = View.VISIBLE

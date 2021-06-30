@@ -1,5 +1,6 @@
 package com.example.android.moviedb.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -31,7 +32,7 @@ class MediaListAdapter(private val onClickListener: OnClickListener)
         }
 
         override fun areContentsTheSame(oldItem: Media, newItem: Media): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem == newItem
         }
     }
 
