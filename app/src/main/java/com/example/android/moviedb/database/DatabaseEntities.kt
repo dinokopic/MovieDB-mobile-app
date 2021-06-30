@@ -32,7 +32,7 @@ fun List<DatabaseMovie>.asMovieDomainModel(): List<Media> {
             name = "",
             overview = it.overview,
             posterPath = it.posterPath,
-            rank = it.rank
+            rank = indexOf(it) + 1
             )
     }
 }
@@ -45,7 +45,7 @@ fun List<DatabaseTVShow>.asTVShowDomainModel(): List<Media> {
             name = it.name ?: "",
             overview = it.overview,
             posterPath = it.posterPath,
-            rank = it.rank
+            rank = indexOf(it) + 1
         )
     }
 }

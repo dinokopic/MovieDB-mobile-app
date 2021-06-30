@@ -20,6 +20,12 @@ interface MediaDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg tvShows: DatabaseTVShow)
 
+    @Query("delete from databasemovie")
+    fun deleteAllMovies()
+
+    @Query("delete from databasetvshow")
+    fun deleteAllTVShows()
+
 }
 
 @Database(entities = [DatabaseMovie::class, DatabaseTVShow::class], version = 1)

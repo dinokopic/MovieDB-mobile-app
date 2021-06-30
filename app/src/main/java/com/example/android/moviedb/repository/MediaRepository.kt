@@ -17,11 +17,13 @@ class MediaRepository @Inject constructor(private val mediaDao: MediaDao,
                                           private val tmdbApiService: TMDBApiService) {
 
     val movies: LiveData<List<Media>> = Transformations.map(mediaDao.getMovies()) {
-        it.asMovieDomainModel()
+        val toIndex = if (it.asMovieDomainModel().isEmpty())  0 else 10
+        it.asMovieDomainModel().subList(0,toIndex)
     }
 
     val tvShows: LiveData<List<Media>> = Transformations.map(mediaDao.getTVShows()) {
-        it.asTVShowDomainModel()
+        val toIndex = if (it.asTVShowDomainModel().isEmpty())  0 else 10
+        it.asTVShowDomainModel().subList(0,toIndex)
     }
 
     suspend fun refreshMovies() {
@@ -31,6 +33,7 @@ class MediaRepository @Inject constructor(private val mediaDao: MediaDao,
                 media.rank = index + 1
             }
             val results = MediaResults(movieResults.results.subList(0, 10))
+            mediaDao.deleteAllMovies()
             mediaDao.insertAll(*results.asMovieDatabaseModel())
         }
     }
@@ -42,6 +45,7 @@ class MediaRepository @Inject constructor(private val mediaDao: MediaDao,
                 media.rank = index + 1
             }
             val results = MediaResults(tvShowResults.results.subList(0, 10))
+            mediaDao.deleteAllTVShows()
             mediaDao.insertAll(*results.asTVShowDatabaseModel())
         }
     }
