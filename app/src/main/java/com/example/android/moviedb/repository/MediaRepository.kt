@@ -1,5 +1,6 @@
 package com.example.android.moviedb.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.android.moviedb.Media
@@ -33,7 +34,14 @@ class MediaRepository @Inject constructor(private val mediaDao: MediaDao,
                 media.rank = index + 1
             }
             val results = MediaResults(movieResults.results.subList(0, 10))
-            mediaDao.deleteAllMovies()
+            movies.value?.forEach {
+                if (results.results.find { movie ->
+                        movie.id == it.id
+                    } == null) {
+                    mediaDao.deleteAllMovies()
+                    return@forEach
+                }
+            }
             mediaDao.insertAll(*results.asMovieDatabaseModel())
         }
     }
@@ -45,7 +53,14 @@ class MediaRepository @Inject constructor(private val mediaDao: MediaDao,
                 media.rank = index + 1
             }
             val results = MediaResults(tvShowResults.results.subList(0, 10))
-            mediaDao.deleteAllTVShows()
+            tvShows.value?.forEach {
+                if (results.results.find { tvShow ->
+                        tvShow.id == it.id
+                    } == null) {
+                    mediaDao.deleteAllTVShows()
+                    return@forEach
+                }
+            }
             mediaDao.insertAll(*results.asTVShowDatabaseModel())
         }
     }
